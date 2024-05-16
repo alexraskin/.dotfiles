@@ -109,6 +109,7 @@ alias tf='terraform'
 alias tfp='terraform plan'
 alias tfa='terraform apply'
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 export PATH="/Users/alex.raskin/.local/bin:$PATH"
 
 # bun completions
