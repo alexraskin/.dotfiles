@@ -108,6 +108,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # . /Users/alex.raskin/.asdf/asdf.sh
 alias tfdocs='terraform-docs markdown table --output-file README.md --output-mode inject .'
 alias tflock='terraform providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=darwin_amd64'
+alias dotfiles='/opt/homebrew/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 export PATH="/Users/alex.raskin/.local/bin:$PATH"
 export PATH="/Users/alex.raskin/bin:$PATH"
 
