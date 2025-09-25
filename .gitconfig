@@ -1,0 +1,9 @@
+[alias]
+  co  = checkout
+  cleanup = remote update --prune
+  ds  = diff --staged
+[init]
+	templateDir = /Users/alex.raskin/.git-template
+[user]
+	email = aleraskin@fastmail.fm
+	name = alexraskin
