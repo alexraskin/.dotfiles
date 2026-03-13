@@ -125,3 +125,5 @@ setopt hist_verify
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 . ${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
