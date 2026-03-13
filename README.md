@@ -1,0 +1,82 @@
+# Dotfiles Setup
+
+This uses a bare git repo with $HOME as the work tree. No symlinks needed.
+
+---
+
+## First-Time Setup (New Dotfiles Repo)
+
+Run these once to initialize the repo.
+
+```bash
+mkdir $HOME/.dotfiles
+git init --bare $HOME/.dotfiles
+```
+
+Add the alias to your `.bashrc` or `.zshrc`:
+
+```bash
+alias dotfiles='/usr/local/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+```
+
+Reload your shell, then configure the repo:
+
+```bash
+dotfiles config --local status.showUntrackedFiles no
+dotfiles remote add origin git@github.com:YOUR_USERNAME/.dotfiles.git
+```
+
+Add files, commit, and push:
+
+```bash
+cd $HOME
+dotfiles add .tmux.conf
+dotfiles commit -m "Add .tmux.conf"
+dotfiles push
+```
+
+---
+
+## New Machine Setup
+
+### Clean $HOME (no conflicting config files)
+
+```bash
+git clone --separate-git-dir=$HOME/.dotfiles https://github.com/YOUR_USERNAME/.dotfiles.git ~
+```
+
+Add the alias to your `.bashrc` or `.zshrc`:
+
+```bash
+alias dotfiles='/usr/local/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+```
+
+### If Conflicts Exist (programs already created default configs)
+
+Clone to a temp directory, rsync into $HOME, then clean up:
+
+```bash
+git clone --separate-git-dir=$HOME/.dotfiles https://github.com/YOUR_USERNAME/.dotfiles.git tmpdotfiles
+rsync --recursive --verbose --exclude '.git' tmpdotfiles/ $HOME/
+rm -r tmpdotfiles
+```
+
+Add the alias to your `.bashrc` or `.zshrc`:
+
+```bash
+alias dotfiles='/usr/local/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+```
+
+---
+
+## Daily Usage
+
+Use `dotfiles` exactly like `git`, from any directory.
+
+```bash
+dotfiles status
+dotfiles add .vimrc
+dotfiles commit -m "Update vimrc"
+dotfiles push
+dotfiles pull
+```
