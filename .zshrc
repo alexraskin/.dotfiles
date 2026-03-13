@@ -24,6 +24,8 @@ setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_verify
 
+compdef dotfiles=git
+
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 alias tfdocs='terraform-docs markdown table --output-file README.md --output-mode inject .'
