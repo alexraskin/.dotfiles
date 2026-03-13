@@ -3,7 +3,7 @@
   cleanup = remote update --prune
   ds  = diff --staged
 [init]
-	templateDir = /Users/alex.raskin/.git-template
+	templateDir = /Users/alex/.git-templates
 [user]
 	email = aleraskin@fastmail.fm
 	name = alexraskin
