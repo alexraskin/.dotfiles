@@ -49,7 +49,7 @@ fi
 
 # Brew bundle
 print_step "Installing packages from Brewfile..."
-brew bundle --file="$HOME/Brewfile"
+brew bundle --file="$HOME/.Brewfile"
 
 # Oh My Zsh
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
