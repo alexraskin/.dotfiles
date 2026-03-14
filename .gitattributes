@@ -1,0 +1,12 @@
+# Normalize line endings
+* text=auto
+
+# Better diffs for common formats
+*.json diff=json
+*.md   diff=markdown
+
+# Mark binaries so git doesn't mangle them
+*.png  binary
+*.jpg  binary
+*.pdf  binary
+
