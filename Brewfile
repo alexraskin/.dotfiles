@@ -16,6 +16,7 @@ cask "nikitabobko/tap/aerospace" # Aerospace window manager
 cask "alacritty"            # Fast, minimal terminal
 cask "spotify"              # Ear candy
 cask "vlc"                  # Video player
+cask "1password" # Password manager
 
 # App Store apps
 mas "Hidden Bar", id: 1452453066
