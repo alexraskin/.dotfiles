@@ -25,11 +25,12 @@ cask "google-chrome"             # Browser
 cask "plex"                      # Media player
 
 # App Store apps
-mas "Tailscale", id: 1475387142       # Tailscale
-mas "WhatsApp", id: 1147396723        # WhatsApp
-mas "Menu World Time", id: 1446377255 # Menu World Time
-mas "Flycut", id: 442160987           # Clipboard manager
-mas "Passepartout", id: 1433648537    # vpn client
+mas "Tailscale", id: 1475387142                  # Tailscale
+mas "WhatsApp Messenger", id: 310633997          # WhatsApp
+mas "Menu World Time", id: 1446377255            # Menu World Time
+mas "Flycut", id: 442160987                      # Clipboard manager
+mas "Passepartout", id: 1433648537               # vpn client
+mas "Net News Wire RSS Reader", id: 6759766675   # RSS reader
 
 # Fonts
 cask "font-b612-mono" # Monospace font
