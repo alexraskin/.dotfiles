@@ -76,6 +76,20 @@ else
   print_ok "Skipping asdf (not installed or no .tool-versions)"
 fi
 
+# Ghostty config symlink (macOS uses a non-XDG path by default)
+GHOSTTY_MACOS_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
+GHOSTTY_XDG_CONFIG="$HOME/.config/ghostty/config"
+if [[ -d "$(dirname "$GHOSTTY_MACOS_DIR")" ]]; then
+  mkdir -p "$GHOSTTY_MACOS_DIR"
+  if [[ ! -L "$GHOSTTY_MACOS_DIR/config" ]]; then
+    print_step "Linking Ghostty config..."
+    ln -sf "$GHOSTTY_XDG_CONFIG" "$GHOSTTY_MACOS_DIR/config"
+    print_ok "Ghostty config linked"
+  else
+    print_ok "Ghostty config already linked"
+  fi
+fi
+
 # Default shell
 if [[ "$SHELL" != "$(which zsh)" ]]; then
   print_step "Setting zsh as default shell..."
