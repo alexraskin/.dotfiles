@@ -20,8 +20,8 @@ cask "vlc"                       # Video player
 cask "1password"                 # Password manager
 cask "cursor"                    # Code editor
 cask "league-of-legends"         # tft
-cask "shottr"                    # Screenshot tool
 cask "localsend"                 # File sharing
+cask "google-chrome"             # Browser
 
 # App Store apps
 mas "Tailscale", id: 1475387142       # Tailscale
