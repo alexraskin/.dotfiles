@@ -22,6 +22,7 @@ cask "cursor"                    # Code editor
 cask "league-of-legends"         # tft
 cask "localsend"                 # File sharing
 cask "google-chrome"             # Browser
+cask "plex"                      # Media player
 
 # App Store apps
 mas "Tailscale", id: 1475387142       # Tailscale
