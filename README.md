@@ -14,10 +14,8 @@ On a fresh Mac, run the bootstrap script from its public Gist. It installs
 Homebrew and 1Password, configures the SSH agent, and clones this repo:
 
 ```bash
-curl -fsSL https://gist.githubusercontent.com/alexraskin/GIST_ID/raw/bootstrap.sh | bash
+curl -fsSL https://gist.githubusercontent.com/alexraskin/c65a43ffd05a80fe27b9a803f7c9fa40/raw/bootstrap.sh | bash
 ```
-
-> **Note:** Replace `GIST_ID` with the actual Gist ID after creating it at gist.github.com.
 
 The bootstrap script will:
 
