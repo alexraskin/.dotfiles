@@ -1,6 +1,6 @@
 # Dotfiles Setup
 
-This uses a bare git repo with `$HOME` as the work tree. No symlinks needed.
+This uses a bare git repo with `$HOME` as the work tree.
 
 ---
 
@@ -28,7 +28,7 @@ After the script completes, open a new terminal session to load your shell confi
 
 ---
 
-## Daily Usage
+## Usage
 
 Use `dotfiles` exactly like `git`, from any directory.
 
