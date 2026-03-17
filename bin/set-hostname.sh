@@ -6,11 +6,10 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 if [[ -z "$1" ]]; then
-  echo "Usage: $0 <hostname>" >&2
-  exit 1
+  read -r -p "Enter hostname: " new_hostname
+else
+  new_hostname="$1"
 fi
-
-new_hostname="$1"
 echo "Set hostname to '$new_hostname'?"
 select yn in "Yes" "No"; do
   case $yn in
