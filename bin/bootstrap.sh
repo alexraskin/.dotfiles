@@ -39,12 +39,18 @@ else
   _brew_shellenv
 fi
 
-# 1Password
+# 1Password and CLI
 if [[ ! -d "/Applications/1Password.app" ]]; then
   print_step "Installing 1Password..."
   brew install --cask 1password
 else
   print_ok "1Password already installed"
+fi
+if ! command -v op &>/dev/null; then
+  print_step "Installing 1Password CLI..."
+  brew install 1password-cli
+else
+  print_ok "1Password CLI already installed"
 fi
 
 # SSH config for 1Password agent
@@ -75,6 +81,9 @@ echo "    4. Authorize the SSH key you use for GitHub"
 echo "    5. In GitHub: Settings → SSH keys → make sure your key is listed"
 echo ""
 read -r -p "    Press Enter once 1Password SSH agent is running and your key is authorized..."
+
+# Point SSH at 1Password agent socket for the rest of this script
+export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 
 # Verify SSH access
 print_step "Testing GitHub SSH access..."
