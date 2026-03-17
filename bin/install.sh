@@ -117,7 +117,8 @@ fi
 # Hostname (optional)
 read -r -p "Set a custom hostname? [y/N] " set_host
 if [[ "$set_host" =~ ^[Yy]$ ]]; then
-  bash "$HOME/bin/set-hostname.sh"
+  read -r -p "Enter hostname: " new_hostname
+  sudo bash "$HOME/bin/set-hostname.sh" "$new_hostname"
 fi
 
 echo ""
