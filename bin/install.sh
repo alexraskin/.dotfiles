@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES_REPO="git@github.com:alexraskin/.dotfiles.git"
+DOTFILES_REPO="https://github.com/alexraskin/.dotfiles.git"
 DOTFILES_DIR="$HOME/.dotfiles"
 
 print_step() { echo "==> $1"; }
