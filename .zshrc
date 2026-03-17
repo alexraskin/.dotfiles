@@ -16,9 +16,9 @@ export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$(brew --prefix)/share/zsh-syntax-highligh
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 . ${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh
 
-export HISTFILESIZE=0
-HISTSIZE=1000
-SAVEHIST=1000
+HISTFILESIZE=10000
+HISTSIZE=10000
+SAVEHIST=10000
 setopt share_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups

@@ -9,7 +9,7 @@ if [ ! -f "$icon_path" ]; then
 fi
 
 echo "Backing up existing icon"
-hash="$(shasum $icon_path | head -c 10)"
+hash="$(shasum "$icon_path" | head -c 10)"
 mv "$icon_path" "$icon_path.backup-$hash"
 
 echo "Downloading replacement icon"

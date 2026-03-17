@@ -24,13 +24,21 @@ else
 fi
 
 # Homebrew
+_brew_shellenv() {
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+}
+
 if ! command -v brew &>/dev/null; then
   print_step "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+  _brew_shellenv
 else
   print_ok "Homebrew already installed"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+  _brew_shellenv
 fi
 
 # Dotfiles (bare git repo)
