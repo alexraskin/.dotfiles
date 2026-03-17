@@ -1,5 +1,7 @@
-# Quit System Preferences so it doesn't override settings
-osascript -e 'tell application "System Preferences" to quit'
+#!/usr/bin/env bash
+
+# Quit System Settings so it doesn't override settings
+osascript -e 'tell application "System Settings" to quit'
 
 # Faster key repeat
 defaults write -g InitialKeyRepeat -int 12
@@ -26,13 +28,14 @@ defaults write com.apple.dock autohide -bool true
 # Don't show recent apps in the Dock
 defaults write com.apple.dock show-recents -bool false
 
-# Hide the "New Playing" menu bar item
+# Hide the "Now Playing" menu bar item
 defaults write com.apple.controlcenter "NSStatusItem Visible NowPlaying" -bool false
 
-# Save screenshots in the Screncaps folder
+# Save screenshots in the Screencaps folder
+mkdir -p ~/Documents/Screencaps
 defaults write com.apple.screencapture location ~/Documents/Screencaps
 
-# Disable .DS_Store on network and USB volumes®
+# Disable .DS_Store on network and USB volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
