@@ -10,6 +10,7 @@ brew "zsh-syntax-highlighting"  # syntax highlighting for zsh
 brew "mas"                      # mac app store apps from the command line
 brew "yt-dlp"                   # youtube downloader
 brew "zsh"                      # zsh shell
+brew "orbstack"                 # Containers
 
 # Casks
 tap "nikitabobko/tap"
