@@ -48,8 +48,6 @@ alias docker-exec-latest="docker exec -ti \$(docker ps --latest --quiet) bash"
 
 alias flush-dns-cache="sudo killall -HUP mDNSResponder"
 
-alias todo="vim ~/TODO.md"
-
 alias tf="terraform"
 
 alias fast='networkQuality -v'
