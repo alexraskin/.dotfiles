@@ -16,9 +16,9 @@ export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$(brew --prefix)/share/zsh-syntax-highligh
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 [ -f "${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh" ] && . "${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh"
 
-HISTFILESIZE=10000
-HISTSIZE=10000
-SAVEHIST=10000
+HISTFILESIZE=100000
+HISTSIZE=100000
+SAVEHIST=100000
 setopt EXTENDED_HISTORY
 setopt INC_APPEND_HISTORY_TIME
 setopt HIST_VERIFY
