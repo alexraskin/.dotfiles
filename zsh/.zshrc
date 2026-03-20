@@ -52,7 +52,6 @@ alias tf="terraform"
 
 alias fast='networkQuality -v'
 
-alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 alias tfdocs='terraform-docs markdown table --output-file README.md --output-mode inject .'
 alias tflock='terraform providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=darwin_amd64'
