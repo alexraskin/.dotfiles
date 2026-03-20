@@ -3,6 +3,7 @@ set -e
 
 DOTFILES_REPO="git@github.com:alexraskin/.dotfiles.git"
 DOTFILES_DIR="$HOME/.dotfiles"
+STOW_PACKAGES=(zsh git aerospace asdf alacritty ghostty)
 
 print_step() { echo "==> $1"; }
 print_ok()   { echo "    [ok] $1"; }
@@ -41,23 +42,31 @@ else
   _brew_shellenv
 fi
 
-# Dotfiles (bare git repo)
+# Dotfiles
 if [[ ! -d "$DOTFILES_DIR" ]]; then
   print_step "Cloning dotfiles..."
-  # Clone to a temp dir, then rsync to handle any existing config files
-  TMPDIR=$(mktemp -d)
-  git clone --separate-git-dir="$DOTFILES_DIR" "$DOTFILES_REPO" "$TMPDIR"
-  rsync --recursive --verbose --exclude '.git' "$TMPDIR/" "$HOME/"
-  rm -rf "$TMPDIR"
-  git --git-dir="$DOTFILES_DIR" --work-tree="$HOME" config --local status.showUntrackedFiles no
+  git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
 else
   print_ok "Dotfiles already cloned, pulling latest..."
-  git --git-dir="$DOTFILES_DIR" --work-tree="$HOME" pull origin main
+  git -C "$DOTFILES_DIR" pull origin main
 fi
 
-# Brew bundle
+# Brew bundle (installs stow and everything else)
 print_step "Installing packages from Brewfile..."
-brew bundle --file="$HOME/.Brewfile"
+brew bundle --file="$DOTFILES_DIR/Brewfile"
+
+# Remove existing configs that would conflict with stow
+print_step "Removing existing configs before stowing..."
+rm -f ~/.zshrc ~/.gitconfig ~/.gitattributes ~/.aerospace.toml ~/.tool-versions
+rm -rf ~/.config/alacritty ~/.config/ghostty
+
+# Stow packages
+print_step "Stowing packages..."
+cd "$DOTFILES_DIR"
+for pkg in "${STOW_PACKAGES[@]}"; do
+  stow -v "$pkg"
+  print_ok "Stowed $pkg"
+done
 
 # Oh My Zsh
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
@@ -84,13 +93,13 @@ else
   print_ok "Skipping asdf (not installed or no .tool-versions)"
 fi
 
-# Ghostty config symlink (macOS uses a non-XDG path by default)
+# Ghostty config symlink (macOS reads from Application Support, not XDG)
 GHOSTTY_MACOS_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
 GHOSTTY_XDG_CONFIG="$HOME/.config/ghostty/config.ghostty"
 if [[ -d "$(dirname "$GHOSTTY_MACOS_DIR")" ]]; then
   mkdir -p "$GHOSTTY_MACOS_DIR"
   if [[ ! -L "$GHOSTTY_MACOS_DIR/config.ghostty" ]]; then
-    print_step "Linking Ghostty config..."
+    print_step "Linking Ghostty config to macOS path..."
     ln -sf "$GHOSTTY_XDG_CONFIG" "$GHOSTTY_MACOS_DIR/config.ghostty"
     print_ok "Ghostty config linked"
   else
@@ -106,19 +115,26 @@ else
   print_ok "zsh is already the default shell"
 fi
 
-# macOS settings (optional)
+# macOS settings
 echo ""
 read -r -p "Apply macOS system settings (keyboard, Finder, Dock)? [y/N] " apply_macos
 if [[ "$apply_macos" =~ ^[Yy]$ ]]; then
   print_step "Applying macOS settings..."
-  bash "$HOME/bin/macos-settings.sh"
+  bash "$DOTFILES_DIR/bin/macos-settings.sh"
 fi
 
-# Hostname (optional)
+# Hostname
 read -r -p "Set a custom hostname? [y/N] " set_host
 if [[ "$set_host" =~ ^[Yy]$ ]]; then
   read -r -p "Enter hostname: " new_hostname
-  sudo bash "$HOME/bin/set-hostname.sh" "$new_hostname"
+  sudo bash "$DOTFILES_DIR/bin/set-hostname.sh" "$new_hostname"
+fi
+
+# Alacritty icon
+read -r -p "Update Alacritty icon? [y/N] " update_icon
+if [[ "$update_icon" =~ ^[Yy]$ ]]; then
+  print_step "Updating Alacritty icon..."
+  bash "$DOTFILES_DIR/bin/update-alacritty-icon.sh"
 fi
 
 echo ""
