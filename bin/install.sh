@@ -8,13 +8,11 @@ STOW_PACKAGES=(zsh git aerospace asdf alacritty ghostty)
 print_step() { echo "==> $1"; }
 print_ok()   { echo "    [ok] $1"; }
 
-# macOS only
 if [[ "$(uname)" != "Darwin" ]]; then
   echo "This script is macOS only." >&2
   exit 1
 fi
 
-# Xcode Command Line Tools
 if ! xcode-select -p &>/dev/null; then
   print_step "Installing Xcode Command Line Tools..."
   xcode-select --install
@@ -24,7 +22,6 @@ else
   print_ok "Xcode Command Line Tools already installed"
 fi
 
-# Homebrew
 _brew_shellenv() {
   if [[ -x /opt/homebrew/bin/brew ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -51,16 +48,13 @@ else
   git -C "$DOTFILES_DIR" pull origin main
 fi
 
-# Brew bundle (installs stow and everything else)
 print_step "Installing packages from Brewfile..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
-# Remove existing configs that would conflict with stow
 print_step "Removing existing configs before stowing..."
 rm -f ~/.zshrc ~/.gitconfig ~/.gitattributes ~/.aerospace.toml ~/.tool-versions
 rm -rf ~/.config/alacritty ~/.config/ghostty
 
-# Stow packages
 print_step "Stowing packages..."
 cd "$DOTFILES_DIR"
 for pkg in "${STOW_PACKAGES[@]}"; do
@@ -68,7 +62,6 @@ for pkg in "${STOW_PACKAGES[@]}"; do
   print_ok "Stowed $pkg"
 done
 
-# Oh My Zsh
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   print_step "Installing Oh My Zsh..."
   RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -76,7 +69,6 @@ else
   print_ok "Oh My Zsh already installed"
 fi
 
-# asdf plugins and versions
 if command -v asdf &>/dev/null && [[ -f "$HOME/.tool-versions" ]]; then
   print_step "Installing asdf plugins and tool versions..."
   while IFS=' ' read -r plugin version; do
@@ -93,7 +85,6 @@ else
   print_ok "Skipping asdf (not installed or no .tool-versions)"
 fi
 
-# Ghostty config symlink (macOS reads from Application Support, not XDG)
 GHOSTTY_MACOS_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
 GHOSTTY_XDG_CONFIG="$HOME/.config/ghostty/config.ghostty"
 if [[ -d "$(dirname "$GHOSTTY_MACOS_DIR")" ]]; then
@@ -107,7 +98,6 @@ if [[ -d "$(dirname "$GHOSTTY_MACOS_DIR")" ]]; then
   fi
 fi
 
-# Default shell
 if [[ "$SHELL" != "$(which zsh)" ]]; then
   print_step "Setting zsh as default shell..."
   chsh -s "$(which zsh)"
@@ -115,7 +105,6 @@ else
   print_ok "zsh is already the default shell"
 fi
 
-# macOS settings
 echo ""
 read -r -p "Apply macOS system settings (keyboard, Finder, Dock)? [y/N] " apply_macos
 if [[ "$apply_macos" =~ ^[Yy]$ ]]; then
@@ -123,14 +112,12 @@ if [[ "$apply_macos" =~ ^[Yy]$ ]]; then
   bash "$DOTFILES_DIR/bin/macos-settings.sh"
 fi
 
-# Hostname
 read -r -p "Set a custom hostname? [y/N] " set_host
 if [[ "$set_host" =~ ^[Yy]$ ]]; then
   read -r -p "Enter hostname: " new_hostname
   sudo bash "$DOTFILES_DIR/bin/set-hostname.sh" "$new_hostname"
 fi
 
-# Alacritty icon
 read -r -p "Update Alacritty icon? [y/N] " update_icon
 if [[ "$update_icon" =~ ^[Yy]$ ]]; then
   print_step "Updating Alacritty icon..."
