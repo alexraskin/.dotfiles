@@ -34,6 +34,7 @@ mas "Passepartout", id: 1433648537               # passepartout
 
 # Fonts
 cask "font-b612-mono" # monospace font
+cask "font-jetbrains-mono"
 
 # VSCode extensions
 vscode "anysphere.remote-ssh" # remote ssh extension
