@@ -13,7 +13,7 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/).
   asdf/.tool-versions
   alacritty/.config/alacritty/alacritty.toml
   alacritty/.config/alacritty/catppuccin-macchiato.toml
-  ghostty/.config/ghostty/config.ghostty
+  ghostty/config.ghostty
   bin/install.sh
   bin/macos-settings.sh
   bin/set-hostname.sh
