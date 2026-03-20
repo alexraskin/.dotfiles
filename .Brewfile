@@ -2,7 +2,7 @@
 brew "asdf"                     # version manager for multiple languages
 brew "curl"                     # u know...
 brew "git"                      # recent version of git
-brew "jq"
+brew "jq"                       # json processor
 brew "wget"                     # wget command for downloading files
 brew "tree"                     # tree command for directory structure
 brew "zsh-autosuggestions"      # autosuggestions for zsh
@@ -24,6 +24,10 @@ cask "netnewswire"               # rss reader
 cask "ghostty"                   # terminal of choice
 cask "insomnia"                  # rest client
 
+# custom
+tap "alexraskin/tap"             # my custom tap
+brew "alexraskin/tap/todo"       # simple todo app
+
 # App Store apps
 mas "Tailscale", id: 1475387142                  # tailscale
 mas "WhatsApp Messenger", id: 310633997          # whatsapp
@@ -33,7 +37,7 @@ mas "Passepartout", id: 1433648537               # passepartout
 
 # Fonts
 cask "font-b612-mono" # monospace font
-cask "font-jetbrains-mono"
+cask "font-jetbrains-mono" 
 
 # VSCode extensions
 vscode "anysphere.remote-ssh" # remote ssh extension
