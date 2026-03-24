@@ -4,7 +4,7 @@
 osascript -e 'tell application "System Settings" to quit'
 
 # Faster key repeat
-defaults write -g InitialKeyRepeat -int 12
+defaults write -g InitialKeyRepeat -int 15
 defaults write -g KeyRepeat -int 2
 
 # Disable press and hold for special characters
