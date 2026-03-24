@@ -24,6 +24,7 @@ cask "plex"                      # media player
 cask "netnewswire"               # rss reader
 cask "ghostty"                   # terminal of choice
 cask "insomnia"                  # rest client
+cask "wifiman"                   # unifi
 
 # custom
 tap "alexraskin/tap"             # my custom tap
