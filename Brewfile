@@ -21,10 +21,9 @@ cask "1password"                 # password manager
 cask "cursor"                    # code editor
 cask "google-chrome"             # browser
 cask "plex"                      # media player
-cask "netnewswire"               # rss reader
 cask "ghostty"                   # terminal of choice
-cask "insomnia"                  # rest client
 cask "wifiman"                   # unifi
+cask "rapidapi"                  # api client
 
 # custom
 tap "alexraskin/tap"             # my custom tap
