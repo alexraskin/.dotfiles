@@ -24,10 +24,12 @@ cask "plex"                      # media player
 cask "ghostty"                   # terminal of choice
 cask "wifiman"                   # unifi
 cask "rapidapi"                  # api client
+cask "shottr"                    # screenshot tool
 
 # custom
 tap "alexraskin/tap"             # my custom tap
 brew "alexraskin/tap/todo"       # simple todo app
+brew "alexraskin/tap/ata"        # ata
 
 # App Store apps
 mas "Tailscale", id: 1475387142                  # tailscale
@@ -37,8 +39,9 @@ mas "Flycut", id: 442160987                      # clipboard manager
 mas "Passepartout", id: 1433648537               # passepartout
 
 # Fonts
-cask "font-b612-mono" # monospace font
-cask "font-jetbrains-mono" 
+cask "font-b612"
+cask "font-b612-mono"
 
 # VSCode extensions
 vscode "anysphere.remote-ssh" # remote ssh extension
+vscode "catppuccin.catppuccin-vsc" # catppuccin theme
