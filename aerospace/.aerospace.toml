@@ -98,7 +98,7 @@ if.app-id = 'com.google.Chrome'
 run = ['move-node-to-workspace B']
 
 [[on-window-detected]]
-if.app-id = 'com.todesktop.230313mzl4w4u92'
+if.app-id = 'dev.zed.Zed'
 run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
