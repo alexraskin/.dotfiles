@@ -18,10 +18,10 @@ cask "nikitabobko/tap/aerospace" # window manager
 cask "spotify"                   # ear candy
 cask "vlc"                       # video player
 cask "1password"                 # password manager
-cask "cursor"                    # code editor
+cask "zed"                       # ide
 cask "google-chrome"             # browser
 cask "plex"                      # media player
-cask "ghostty"                   # terminal of choice
+cask "ghostty"                   # terminal
 cask "wifiman"                   # unifi
 cask "rapidapi"                  # api client
 cask "shottr"                    # screenshot tool
