@@ -17,3 +17,10 @@ window-padding-color = extend
 window-padding-balance = true
 keybind = shift+enter=text:\n
 macos-option-as-alt = true
+clipboard-paste-protection = false
+cursor-color = #e6e6e6
+cursor-text = #1e1f29
+macos-icon = custom-style
+macos-icon-frame = aluminum
+macos-icon-ghost-color = #52fc85
+macos-icon-screen-color = #0f2213
