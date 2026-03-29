@@ -44,21 +44,22 @@ alias ....="cd ../../.."
 
 alias c="claude"
 
-alias router_ip="route -n get default -ifscope en0 | awk '/gateway/ { print \$2 }'"
-
 alias docker-killall="docker ps | tail -n +2 | cut -f1 -d' ' | xargs docker kill"
 alias docker-cleanup="docker ps -a | cut -f1 -d' ' | tail -n +2 | xargs docker rm"
 alias docker-exec-latest="docker exec -ti \$(docker ps --latest --quiet) bash"
 
+alias router_ip="route -n get default -ifscope en0 | awk '/gateway/ { print \$2 }'"
 alias flush-dns-cache="sudo killall -HUP mDNSResponder"
-
-alias tf="terraform"
-
 alias fast='networkQuality -v'
 
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+alias tf="terraform"
 alias tfdocs='terraform-docs markdown table --output-file README.md --output-mode inject .'
 alias tflock='terraform providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=darwin_amd64'
+
+alias rip="$HOME/.dotfiles/bin/rip-with-ffmpeg.sh $@"
+alias rip-yt="$HOME/.dotfiles/bin/rip-yt.sh $@"
 
 # Complete ssh with hosts in ~/.ssh/config
 zstyle -s ':completion:*:hosts' hosts _ssh_config

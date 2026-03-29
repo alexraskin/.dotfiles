@@ -129,12 +129,5 @@ if [[ "$set_host" =~ ^[Yy]$ ]]; then
   sudo bash "$DOTFILES_DIR/bin/set-hostname.sh" "$new_hostname"
 fi
 
-# Alacritty icon
-read -r -p "Update Alacritty icon? [y/N] " update_icon
-if [[ "$update_icon" =~ ^[Yy]$ ]]; then
-  print_step "Updating Alacritty icon..."
-  bash "$DOTFILES_DIR/bin/update-alacritty-icon.sh"
-fi
-
 echo ""
 echo "Done! Open a new terminal session to load your shell config."
