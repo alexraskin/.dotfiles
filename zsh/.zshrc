@@ -32,8 +32,6 @@ setopt HIST_REDUCE_BLANKS
 
 bindkey '^U' backward-kill-line
 
-compdef dotfiles=git
-
 alias l="ls -AF"
 alias ll="ls -lh"
 alias la="ls -A"
@@ -41,8 +39,6 @@ alias la="ls -A"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-
-alias c="claude"
 
 alias docker-killall="docker ps | tail -n +2 | cut -f1 -d' ' | xargs docker kill"
 alias docker-cleanup="docker ps -a | cut -f1 -d' ' | tail -n +2 | xargs docker rm"
@@ -72,7 +68,6 @@ zstyle ':completion:*:hosts' hosts $_ssh_config
 
 ginit() {
   git init "$@"
-  cp ~/.git-templates/.gitignore "${1:-.}/.gitignore"
   cp ~/.git-templates/.tool-versions "${1:-.}/.tool-versions"
 }
 
