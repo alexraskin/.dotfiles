@@ -61,6 +61,8 @@ alias tflock='terraform providers lock -platform=darwin_arm64 -platform=linux_am
 alias rip="$HOME/.dotfiles/bin/rip-with-ffmpeg.sh $@"
 alias rip-yt="$HOME/.dotfiles/bin/rip-yt.sh $@"
 
+alias code="zed"
+
 # Complete ssh with hosts in ~/.ssh/config
 zstyle -s ':completion:*:hosts' hosts _ssh_config
 if [[ -r ~/.ssh/config ]]; then

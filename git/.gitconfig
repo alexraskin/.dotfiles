@@ -16,3 +16,5 @@
 	gpgsign = true
 [pull]
 	rebase = true
+[core]
+  excludesfile = ~/.gitignore_global
