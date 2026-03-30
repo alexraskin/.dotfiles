@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Check if yt-dlp is installed
 if ! command -v yt-dlp &> /dev/null; then
