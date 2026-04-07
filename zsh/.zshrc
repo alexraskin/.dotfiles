@@ -128,4 +128,3 @@ awake() {
     caffeinate -u
   fi
 }
-√
