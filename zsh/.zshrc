@@ -9,6 +9,7 @@ source $ZSH/oh-my-zsh.sh
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# zsh plugins
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$(brew --prefix)/share/zsh-syntax-highlighting/highlighters
@@ -17,9 +18,11 @@ export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$(brew --prefix)/share/zsh-syntax-highligh
 export ANTHROPIC_API_KEY=$(op read "op://Private/ata-api-key/credential")
 export GITHUB_TOKEN=$(op read "op://Private/GitHub/github-token")
 
+# asdf
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 [ -f "${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh" ] && . "${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh"
 
+# history
 HISTFILESIZE=100000
 HISTSIZE=100000
 SAVEHIST=100000
@@ -30,35 +33,45 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 
+# keybindings
 bindkey '^U' backward-kill-line
 
+# ls aliases
 alias l="ls -AF"
 alias ll="ls -lh"
 alias la="ls -A"
 
+# directory navigation
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
+# docker
 alias docker-killall="docker ps | tail -n +2 | cut -f1 -d' ' | xargs docker kill"
 alias docker-cleanup="docker ps -a | cut -f1 -d' ' | tail -n +2 | xargs docker rm"
 alias docker-exec-latest="docker exec -ti \$(docker ps --latest --quiet) bash"
 
+# network aliases
 alias router_ip="route -n get default -ifscope en0 | awk '/gateway/ { print \$2 }'"
 alias flush-dns-cache="sudo killall -HUP mDNSResponder"
 alias fast='networkQuality -v'
 
+# tailscale
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
+# terraform
 alias tf="terraform"
 alias tfdocs='terraform-docs markdown table --output-file README.md --output-mode inject .'
 alias tflock='terraform providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=darwin_amd64'
 
+# custom scripts
 alias rip="$HOME/.dotfiles/bin/rip-with-ffmpeg.sh $@"
 alias rip-yt="$HOME/.dotfiles/bin/rip-yt.sh $@"
 
+# used to vscode lol
 alias code="zed"
 
+# forward ports from dev server to local machine
 alias fwd='~/.dotfiles/bin/forward.sh'
 
 # Complete ssh with hosts in ~/.ssh/config
@@ -68,17 +81,14 @@ if [[ -r ~/.ssh/config ]]; then
 fi
 zstyle ':completion:*:hosts' hosts $_ssh_config
 
-ginit() {
-  git init "$@"
-  cp ~/.git-templates/.tool-versions "${1:-.}/.tool-versions"
-}
-
+# battery time remaining
 batt() {
   time_remaining=$(pmset -g batt | grep -Eo "([0-9]+:[0-9]+)")
   pct_remaining=$(pmset -g batt | grep -Eo "([0-9]+\%)")
   echo "$time_remaining remaining ($pct_remaining)"
 }
 
+# Backup a file or directory to ~/backups with a timestamped filename
 backup() {
   if [ -z "$1" ]; then
     echo "usage: backup FILE"
@@ -106,4 +116,11 @@ backup() {
   echo "  destination = $dst_path"
   [ ! -d "$dst_dir" ] && mkdir -p "$dst_dir"
   cp -r "$src_path" "$dst_path"
+}
+
+# keep the mac awake ;)
+awake() {
+  local timeout=${1:-3600}
+  echo "Caffeinated for $timeout seconds"
+  caffeinate -u -t "$timeout"
 }
