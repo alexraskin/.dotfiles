@@ -120,7 +120,12 @@ backup() {
 
 # keep the mac awake ;)
 awake() {
-  local timeout=${1:-3600}
-  echo "Caffeinated for $timeout seconds"
-  caffeinate -u -t "$timeout"
+  if [[ "$1" == "-t" && -n "$2" ]]; then
+    echo "☕ Caffeinated for $2 seconds"
+    caffeinate -u -t "$2"
+  else
+    echo "☕ Caffeinated indefinitely (Ctrl+C to stop)"
+    caffeinate -u
+  fi
 }
+√
