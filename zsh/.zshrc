@@ -1,5 +1,22 @@
+if [[ -f ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
+fi
+
+# Set powerlevel10k theme.
+# https://github.com/romkatv/powerlevel10k
+if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+fi
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="afowler"
 
 zstyle ':omz:update' mode auto
 
@@ -35,6 +52,9 @@ setopt HIST_REDUCE_BLANKS
 
 # keybindings
 bindkey '^U' backward-kill-line
+
+# disable homebrew env hints
+export HOMEBREW_NO_ENV_HINTS=1
 
 # ls aliases
 alias l="ls -AF"
@@ -122,9 +142,15 @@ backup() {
 awake() {
   if [[ "$1" == "-t" && -n "$2" ]]; then
     echo "☕ Caffeinated for $2 seconds"
-    caffeinate -u -t "$2"
+    caffeinate -u -d -t "$2"
   else
     echo "☕ Caffeinated indefinitely (Ctrl+C to stop)"
-    caffeinate -u
+    caffeinate -u -d -i
   fi
 }
+
+# go
+export PATH="$HOME/go/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
