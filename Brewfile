@@ -25,6 +25,7 @@ cask "ghostty"                   # terminal
 cask "wifiman"                   # unifi
 cask "rapidapi"                  # api client
 cask "shottr"                    # screenshot tool
+cask "alcove"                    # island tool
 
 # custom
 tap "alexraskin/tap"             # my custom tap
