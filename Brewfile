@@ -1,5 +1,4 @@
 # Brew
-brew "asdf"                     # version manager for multiple languages
 brew "curl"                     # u know...
 brew "git"                      # recent version of git
 brew "jq"                       # json processor
