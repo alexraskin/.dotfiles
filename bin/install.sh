@@ -3,7 +3,7 @@ set -e
 
 DOTFILES_REPO="git@github.com:alexraskin/.dotfiles.git"
 DOTFILES_DIR="$HOME/.dotfiles"
-STOW_PACKAGES=(zsh git aerospace asdf alacritty)
+STOW_PACKAGES=(zsh git aerospace ghostty)
 
 print_step() { echo "==> $1"; }
 print_ok()   { echo "    [ok] $1"; }
@@ -25,21 +25,17 @@ else
 fi
 
 # Homebrew
-_brew_shellenv() {
-  if [[ -x /opt/homebrew/bin/brew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -x /usr/local/bin/brew ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-  fi
-}
-
 if ! command -v brew &>/dev/null; then
   print_step "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  _brew_shellenv
 else
   print_ok "Homebrew already installed"
-  _brew_shellenv
+fi
+
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
 fi
 
 # Dotfiles
@@ -51,14 +47,14 @@ else
   git -C "$DOTFILES_DIR" pull origin main
 fi
 
-# Brew bundle (installs stow and everything else)
+# Brew bundle
 print_step "Installing packages from Brewfile..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
 # Remove existing configs that would conflict with stow
 print_step "Removing existing configs before stowing..."
-rm -f ~/.zshrc ~/.gitconfig ~/.gitattributes ~/.aerospace.toml ~/.tool-versions
-rm -rf ~/.config/alacritty
+rm -f ~/.zshrc ~/.gitconfig ~/.gitattributes ~/.aerospace.toml
+
 
 # Stow packages
 print_step "Stowing packages..."
@@ -76,35 +72,16 @@ else
   print_ok "Oh My Zsh already installed"
 fi
 
-# asdf plugins and versions
-if command -v asdf &>/dev/null && [[ -f "$HOME/.tool-versions" ]]; then
-  print_step "Installing asdf plugins and tool versions..."
-  while IFS=' ' read -r plugin version; do
-    [[ -z "$plugin" || "$plugin" == \#* ]] && continue
-    if ! asdf plugin list 2>/dev/null | grep -q "^${plugin}$"; then
-      echo "    Adding asdf plugin: $plugin"
-      asdf plugin add "$plugin" || true
-    fi
-    echo "    Installing $plugin $version"
-    asdf install "$plugin" "$version" || true
-  done < "$HOME/.tool-versions"
-  asdf reshim || true
+# Powerlevel10k
+P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+if [[ ! -d "$P10K_DIR" ]]; then
+  print_step "Installing Powerlevel10k..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
 else
-  print_ok "Skipping asdf (not installed or no .tool-versions)"
+  print_ok "Powerlevel10k already installed"
 fi
 
-# Ghostty config symlink (macOS reads from Application Support, not XDG)
-GHOSTTY_MACOS_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
-if [[ -d "$(dirname "$GHOSTTY_MACOS_DIR")" ]]; then
-  mkdir -p "$GHOSTTY_MACOS_DIR"
-  if [[ ! -L "$GHOSTTY_MACOS_DIR/config.ghostty" ]]; then
-    print_step "Linking Ghostty config to macOS path..."
-    ln -sf "$DOTFILES_DIR/ghostty/config.ghostty" "$GHOSTTY_MACOS_DIR/config.ghostty"
-    print_ok "Ghostty config linked"
-  else
-    print_ok "Ghostty config already linked"
-  fi
-fi
+
 
 # Default shell
 if [[ "$SHELL" != "$(which zsh)" ]]; then
@@ -114,7 +91,7 @@ else
   print_ok "zsh is already the default shell"
 fi
 
-# macOS settings
+# Optional extras
 echo ""
 read -r -p "Apply macOS system settings (keyboard, Finder, Dock)? [y/N] " apply_macos
 if [[ "$apply_macos" =~ ^[Yy]$ ]]; then
@@ -122,7 +99,6 @@ if [[ "$apply_macos" =~ ^[Yy]$ ]]; then
   bash "$DOTFILES_DIR/bin/macos-settings.sh"
 fi
 
-# Hostname
 read -r -p "Set a custom hostname? [y/N] " set_host
 if [[ "$set_host" =~ ^[Yy]$ ]]; then
   read -r -p "Enter hostname: " new_hostname
