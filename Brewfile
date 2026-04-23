@@ -21,15 +21,14 @@ cask "1password"                 # password manager
 cask "1password-cli"             # 1password cli
 cask "zed"                       # ide
 cask "google-chrome"             # browser
-cask "plex"                      # media player
+cask "plex"                      # the high seas
 cask "ghostty"                   # terminal
 cask "wifiman"                   # unifi
-cask "rapidapi"                  # api client
 cask "shottr"                    # screenshot tool
-cask "claude-code"               # claude code assistant
+cask "claude-code"               # claude
 
 # custom
-tap "alexraskin/tap"             # my custom tap
+tap "alexraskin/tap"             # custom tap
 brew "alexraskin/tap/todo"       # simple todo app
 brew "alexraskin/tap/ata"        # ata
 
@@ -39,12 +38,11 @@ mas "WhatsApp Messenger", id: 310633997          # whatsapp
 mas "Menu World Time", id: 1446377255            # menu world time
 mas "Flycut", id: 442160987                      # clipboard manager
 mas "Passepartout", id: 1433648537               # passepartout
+mas "Yubico Authenticator", id: 1497506650       # yubico authenticator
+mas "Xcode", id: 497799835                       # xcode
+mas "infuse", id: 1136220934                     # video player
 
 # Fonts
 cask "font-b612"
 cask "font-b612-mono"
 cask "font-iosevka"
-
-# VSCode extensions
-vscode "anysphere.remote-ssh" # remote ssh extension
-vscode "catppuccin.catppuccin-vsc" # catppuccin theme
