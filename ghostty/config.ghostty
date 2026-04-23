@@ -1,5 +1,6 @@
 cursor-style-blink = true
-font-family = B612 Mono
+font-family = Iosevka
+font-size = 25
 font-thicken = true
 font-feature = -calt
 macos-non-native-fullscreen = padded-notch

@@ -24,8 +24,11 @@ if [ $# -eq 0 ]; then
 fi
 
 URL="$1"
+OUTPUT_DIR="$HOME/documents/youtube-videos"
+
+mkdir -p "$OUTPUT_DIR"
 
 yt-dlp -f "bestvideo[ext=mp4][vcodec^=avc1]+bestaudio[ext=m4a]/best[ext=mp4]" \
   --merge-output-format mp4 \
-  -o "%(title)s.%(ext)s" \
+  -o "$OUTPUT_DIR/%(title)s.%(ext)s" \
   --cookies-from-browser chrome "$1"
