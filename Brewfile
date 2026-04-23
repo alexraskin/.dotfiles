@@ -18,6 +18,7 @@ cask "nikitabobko/tap/aerospace" # window manager
 cask "spotify"                   # ear candy
 cask "vlc"                       # video player
 cask "1password"                 # password manager
+cask "1password-cli"             # 1password cli
 cask "zed"                       # ide
 cask "google-chrome"             # browser
 cask "plex"                      # media player
@@ -25,7 +26,7 @@ cask "ghostty"                   # terminal
 cask "wifiman"                   # unifi
 cask "rapidapi"                  # api client
 cask "shottr"                    # screenshot tool
-cask "alcove"                    # island tool
+cask "claude-code"               # claude code assistant
 
 # custom
 tap "alexraskin/tap"             # my custom tap
@@ -42,6 +43,7 @@ mas "Passepartout", id: 1433648537               # passepartout
 # Fonts
 cask "font-b612"
 cask "font-b612-mono"
+cask "font-iosevka"
 
 # VSCode extensions
 vscode "anysphere.remote-ssh" # remote ssh extension
