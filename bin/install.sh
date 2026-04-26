@@ -3,7 +3,7 @@ set -e
 
 DOTFILES_REPO="git@github.com:alexraskin/.dotfiles.git"
 DOTFILES_DIR="$HOME/.dotfiles"
-STOW_PACKAGES=(zsh git aerospace ghostty)
+STOW_PACKAGES=(zsh git aerospace ghostty ata)
 
 print_step() { echo "==> $1"; }
 print_ok()   { echo "    [ok] $1"; }
