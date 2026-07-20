@@ -1,6 +1,0 @@
---target=~
---ignore=.stowrc
---ignore=DS_Store
---ignore=^bin$
---ignore=^Brewfile$
---ignore=^README\.md$

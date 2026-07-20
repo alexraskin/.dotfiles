@@ -3,7 +3,6 @@ set -e
 
 DOTFILES_REPO="git@github.com:alexraskin/.dotfiles.git"
 DOTFILES_DIR="$HOME/.dotfiles"
-STOW_PACKAGES=(zsh git aerospace ghostty ata)
 
 print_step() { echo "==> $1"; }
 print_ok()   { echo "    [ok] $1"; }
@@ -38,6 +37,14 @@ elif [[ -x /usr/local/bin/brew ]]; then
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# mise
+if ! command -v mise &>/dev/null; then
+  print_step "Installing mise..."
+  brew install mise
+else
+  print_ok "mise already installed"
+fi
+
 # Dotfiles
 if [[ ! -d "$DOTFILES_DIR" ]]; then
   print_step "Cloning dotfiles..."
@@ -47,22 +54,11 @@ else
   git -C "$DOTFILES_DIR" pull origin main
 fi
 
-# Brew bundle
-print_step "Installing packages from Brewfile..."
-brew bundle --file="$DOTFILES_DIR/Brewfile"
-
-# Remove existing configs that would conflict with stow
-print_step "Removing existing configs before stowing..."
-rm -f ~/.zshrc ~/.gitconfig ~/.gitattributes ~/.aerospace.toml
-
-
-# Stow packages
-print_step "Stowing packages..."
+# Bootstrap packages + dotfiles symlinks via mise
+print_step "Running mise bootstrap..."
 cd "$DOTFILES_DIR"
-for pkg in "${STOW_PACKAGES[@]}"; do
-  stow -v "$pkg"
-  print_ok "Stowed $pkg"
-done
+mise trust
+mise bootstrap
 
 # Oh My Zsh
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
@@ -81,8 +77,6 @@ else
   print_ok "Powerlevel10k already installed"
 fi
 
-
-
 # Default shell
 if [[ "$SHELL" != "$(which zsh)" ]]; then
   print_step "Setting zsh as default shell..."
@@ -96,7 +90,9 @@ echo ""
 read -r -p "Apply macOS system settings (keyboard, Finder, Dock)? [y/N] " apply_macos
 if [[ "$apply_macos" =~ ^[Yy]$ ]]; then
   print_step "Applying macOS settings..."
-  bash "$DOTFILES_DIR/bin/macos-settings.sh"
+  cd "$DOTFILES_DIR"
+  mise run bootstrap
+  mise run macos-wallpaper
 fi
 
 read -r -p "Set a custom hostname? [y/N] " set_host

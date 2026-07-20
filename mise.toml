@@ -1,0 +1,109 @@
+[tools]
+python = 'latest'
+go = "latest"
+
+[settings]
+lockfile = true
+lockfile_platforms = ["linux-x64", "macos-arm64"]
+experimental = true  # required for `mise bootstrap`
+dotfiles.root = "~/.dotfiles"
+dotfiles.default_mode = "symlink"
+
+[dotfiles]
+"~/.config/mise.toml" = "~/.dotfiles/mise.toml"
+"~/.config/mise.lock" = "~/.dotfiles/mise.lock"
+"~/.zshrc" = "~/.dotfiles/zsh/.zshrc"
+"~/.gitconfig" = "~/.dotfiles/git/.gitconfig"
+"~/.gitignore_global" = "~/.dotfiles/git/.gitignore_global"
+"~/.gitattributes" = "~/.dotfiles/git/.gitattributes"
+"~/.aerospace.toml" = "~/.dotfiles/aerospace/.aerospace.toml"
+"~/.config/ghostty/config" = "~/.dotfiles/ghostty/config"
+"~/.config/ata/config.toml" = "~/.dotfiles/ata/config.toml"
+"~/.hushlogin" = "~/.dotfiles/hushlogin/.hushlogin"
+"~/.p10k.zsh" = "~/.dotfiles/p10k/.p10k.zsh"
+"~/.claude/settings.json" = "~/.dotfiles/claude/settings.json"
+
+[bootstrap.brew.taps]
+"nikitabobko/tap/aerospace" = "https://github.com/nikitabobko/homebrew-tap.git"
+"alexraskin/tap" = "https://github.com/alexraskin/homebrew-tap.git"
+
+[bootstrap.packages]
+"brew:curl" = "latest"
+"brew:git" = "latest"
+"brew:jq" = "latest"
+"brew:mas" = "latest"
+"brew:stow" = "latest"
+"brew:tree" = "latest"
+"brew:wget" = "latest"
+"brew:yt-dlp" = "latest"
+"brew:zsh" = "latest"
+"brew:zsh-autosuggestions" = "latest"
+"brew:zsh-syntax-highlighting" = "latest"
+"brew:alexraskin/tap/ata" = "latest"
+"brew:alexraskin/tap/todo" = "latest"
+"brew-cask:1password" = "latest"
+"brew-cask:1password-cli" = "latest"
+"brew-cask:claude-code" = "latest"
+"brew-cask:font-b612" = "latest"
+"brew-cask:font-iosevka" = "latest"
+"brew-cask:ghostty" = "latest"
+"brew-cask:google-chrome" = "latest"
+"brew-cask:plex" = "latest"
+"brew-cask:shottr" = "latest"
+"brew-cask:spotify" = "latest"
+"brew-cask:wifiman" = "latest"
+"brew-cask:zed" = "latest"
+"mas:1475387142" = "latest" # Tailscale
+"mas:310633997" = "latest" # WhatsApp Messenger
+"mas:1446377255" = "latest" # Menu World Time
+"mas:442160987" = "latest" # Flycut
+"mas:1433648537" = "latest" # Passepartout
+"mas:1497506650" = "latest" # Yubico Authenticator
+"mas:497799835" = "latest" # Xcode
+"mas:1136220934" = "latest" # infuse
+"mas:1351639930" = "latest" # Gifski
+
+[bootstrap.macos.dock]
+autohide = true
+show_recents = false
+
+[bootstrap.macos.finder]
+show_pathbar = true
+preferred_view_style = "list"
+
+[bootstrap.macos.keyboard]
+key_repeat = 2
+initial_key_repeat = 15
+press_and_hold = false
+
+[bootstrap.macos.defaults]
+"NSGlobalDomain" = { AppleShowAllExtensions = true }
+"com.apple.controlcenter" = { "NSStatusItem Visible NowPlaying" = false }
+"com.apple.desktopservices" = { DSDontWriteNetworkStores = true, DSDontWriteUSBStores = true }
+
+[tasks.bootstrap]
+description = "macOS post-defaults setup (dirs, chflags, app restarts)"
+run = """
+osascript -e 'tell application "System Settings" to quit'
+mkdir -p "$HOME/Documents/Screencaps"
+defaults write com.apple.screencapture location "$HOME/Documents/Screencaps"
+chflags nohidden "$HOME/Library" || true
+killall Dock || true
+killall Finder || true
+killall SystemUIServer || true
+"""
+
+[tasks.macos-wallpaper]
+description = "Download and set desktop wallpaper + matching screensaver"
+run = """
+WALLPAPER="$HOME/Pictures/wallpaper.jpeg"
+curl -sL "https://i.adrx.me/SCR-20260422-nn5.jpeg" -o "$WALLPAPER"
+osascript -e "tell application \\"Finder\\" to set desktop picture to POSIX file \\"$WALLPAPER\\""
+
+defaults -currentHost write com.apple.screensaver moduleDict -dict \\
+  moduleName -string "iLifeSlideshows" \\
+  path -string "/System/Library/Frameworks/ScreenSaver.framework/PlugIns/iLifeSlideshows.appex" \\
+  type -int 0
+defaults -currentHost write com.apple.screensaveraction idleTime -int 300
+defaults -currentHost write com.apple.screensaver showClock -bool true
+"""

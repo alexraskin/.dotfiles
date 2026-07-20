@@ -13,15 +13,18 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Oh My Zsh
 export ZSH="$HOME/.oh-my-zsh"
-
-zstyle ':omz:update' mode auto
-
-plugins=(git)
-
+zstyle ':omz:update' mode disabled
+plugins=(git mise)
 source $ZSH/oh-my-zsh.sh
 
+# Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
+export HOMEBREW_NO_ENV_HINTS=1
+
+# mise
+eval "$(mise activate zsh)"
 
 # zsh plugins
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -29,12 +32,8 @@ source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$(brew --prefix)/share/zsh-syntax-highlighting/highlighters
 
 # 1pass keys
-export ANTHROPIC_API_KEY=$(op read "op://Private/ata-api-key/credential")
-export GITHUB_TOKEN=$(op read "op://Private/GitHub/github-token")
-
-# asdf
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-[ -f "${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh" ] && . "${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh"
+export ANTHROPIC_API_KEY=$(op read "op://Private/ata-api-key/credential" 2>/dev/null)
+export GITHUB_TOKEN=$(op read "op://Private/GitHub/github-token" 2>/dev/null)
 
 # history
 HISTFILESIZE=100000
@@ -50,8 +49,16 @@ setopt HIST_REDUCE_BLANKS
 # keybindings
 bindkey '^U' backward-kill-line
 
-# disable homebrew env hints
-export HOMEBREW_NO_ENV_HINTS=1
+# go
+export PATH="$HOME/go/bin:$PATH"
+
+# claude
+alias c="claude"
+
+# git
+alias g="git"
+alias gst="git status"
+alias gpb="git push -u origin \$(git branch --show-current)"
 
 # ls aliases
 alias l="ls -AF"
@@ -84,12 +91,10 @@ alias tflock='terraform providers lock -platform=darwin_arm64 -platform=linux_am
 # custom scripts
 alias rip="$HOME/.dotfiles/bin/rip-with-ffmpeg.sh $@"
 alias rip-yt="$HOME/.dotfiles/bin/rip-yt.sh $@"
+alias fwd='~/.dotfiles/bin/forward.sh'
 
 # used to vscode lol
 alias code="zed"
-
-# forward ports from dev server to local machine
-alias fwd='~/.dotfiles/bin/forward.sh'
 
 # Complete ssh with hosts in ~/.ssh/config
 zstyle -s ':completion:*:hosts' hosts _ssh_config
@@ -146,8 +151,30 @@ awake() {
   fi
 }
 
-# go
-export PATH="$HOME/go/bin:$PATH"
+gh-open() {
+  local file="$1"
+  if git rev-parse --git-dir > /dev/null 2>&1; then
+    repo=$(git remote get-url origin|sed "s/:/\\//; s/\\.git//; s/git@/https:\\/\\//; s/https\\/\\//https:\\//")
+    if [ -z "$file" ]; then
+      open "${repo}"
+    else
+      local branch=$(git rev-parse --abbrev-ref HEAD)
+      open "${repo}/blob/${branch}/${file}"
+    fi
+  else
+    echo "not in a git repo"
+  fi
+}
+
+gh-pr() {
+  if git rev-parse --git-dir > /dev/null 2>&1; then
+    local repo=$(git remote get-url origin|sed "s/:/\\//; s/\\.git//; s/git@/https:\\/\\//")
+    local branch=$(git rev-parse --abbrev-ref HEAD)
+    open "${repo}/compare/${branch}?expand=1"
+  else
+    echo "not in a git repo"
+  fi
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

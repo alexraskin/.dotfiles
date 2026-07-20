@@ -1,0 +1,10 @@
+{
+  "theme": "dark-daltonized",
+  "tui": "fullscreen",
+  "attribution": {
+    "commit": "false",
+    "pr": "false"
+  },
+  "includeCoAuthoredBy": false,
+  "model": "sonnet"
+}

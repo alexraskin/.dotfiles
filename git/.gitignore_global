@@ -13,3 +13,5 @@
 node_modules
 venv
 .vscode
+
+**/.claude/settings.local.json
