@@ -95,7 +95,7 @@ killall SystemUIServer || true
 description = "Download and set desktop wallpaper + matching screensaver"
 run = """
 WALLPAPER="$HOME/Pictures/wallpaper.jpeg"
-curl -sL "https://i.adrx.me/SCR-20260422-nn5.jpeg" -o "$WALLPAPER"
+curl -sL "https://cdn.alexraskin.com/wallpapers/wp16126074-dragon-anime-4k-wallpapers.jpg" -o "$WALLPAPER"
 osascript -e "tell application \\"Finder\\" to set desktop picture to POSIX file \\"$WALLPAPER\\""
 
 defaults -currentHost write com.apple.screensaver moduleDict -dict \\
