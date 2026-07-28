@@ -25,7 +25,7 @@ dotfiles.default_mode = "symlink"
 
 [bootstrap.brew.taps]
 "nikitabobko/tap/aerospace" = "https://github.com/nikitabobko/homebrew-tap.git"
-"alexraskin/tap" = "https://github.com/alexraskin/homebrew-tap.git"
+"alexraskin/tap/ata" = "https://github.com/alexraskin/homebrew-tap.git"
 
 [bootstrap.packages]
 "brew:curl" = "latest"
@@ -39,8 +39,6 @@ dotfiles.default_mode = "symlink"
 "brew:zsh" = "latest"
 "brew:zsh-autosuggestions" = "latest"
 "brew:zsh-syntax-highlighting" = "latest"
-"brew:alexraskin/tap/ata" = "latest"
-"brew:alexraskin/tap/todo" = "latest"
 "brew-cask:1password" = "latest"
 "brew-cask:1password-cli" = "latest"
 "brew-cask:claude-code" = "latest"
