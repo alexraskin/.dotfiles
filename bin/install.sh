@@ -1,105 +1,46 @@
 #!/usr/bin/env bash
-set -e
+# Bootstrap a fresh Mac. Everything except git, nix, and this repo is declared
+# in the flake — packages, Homebrew itself, casks, macOS defaults, dotfiles.
+set -euo pipefail
 
-DOTFILES_REPO="git@github.com:alexraskin/.dotfiles.git"
-DOTFILES_DIR="$HOME/.dotfiles"
+REPO="git@github.com:alexraskin/.dotfiles.git"
+DIR="$HOME/.dotfiles"
+FLAKE="path:$DIR#mba"
+NIX="/nix/var/nix/profiles/default/bin/nix"
 
-print_step() { echo "==> $1"; }
-print_ok()   { echo "    [ok] $1"; }
+step() { echo "==> $*"; }
 
-# macOS only
 if [[ "$(uname)" != "Darwin" ]]; then
   echo "This script is macOS only." >&2
   exit 1
 fi
 
-# Xcode Command Line Tools
+# Xcode Command Line Tools — prereq for git and nix.
 if ! xcode-select -p &>/dev/null; then
-  print_step "Installing Xcode Command Line Tools..."
+  step "Installing Xcode Command Line Tools"
   xcode-select --install
-  echo "    Re-run this script after the installation completes."
+  echo "    Re-run this script once the installation completes."
   exit 0
-else
-  print_ok "Xcode Command Line Tools already installed"
 fi
 
-# Homebrew
-if ! command -v brew &>/dev/null; then
-  print_step "Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-  print_ok "Homebrew already installed"
+if [[ ! -e "$NIX" ]]; then
+  step "Installing Nix"
+  installer="$(mktemp)"
+  curl --proto '=https' --tlsv1.2 -fsSL https://nixos.org/nix/install -o "$installer"
+  sh "$installer" --daemon
+  rm -f "$installer"
+fi
+# shellcheck disable=SC1091
+. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+
+if [[ ! -d "$DIR" ]]; then
+  step "Cloning dotfiles"
+  git clone "$REPO" "$DIR"
 fi
 
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -x /usr/local/bin/brew ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
-fi
+step "Activating nix-darwin"
+sudo "$NIX" --extra-experimental-features 'nix-command flakes' \
+  run nix-darwin/master#darwin-rebuild -- switch --flake "$FLAKE"
 
-# mise
-if ! command -v mise &>/dev/null; then
-  print_step "Installing mise..."
-  brew install mise
-else
-  print_ok "mise already installed"
-fi
-
-# Dotfiles
-if [[ ! -d "$DOTFILES_DIR" ]]; then
-  print_step "Cloning dotfiles..."
-  git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
-else
-  print_ok "Dotfiles already cloned, pulling latest..."
-  git -C "$DOTFILES_DIR" pull origin main
-fi
-
-# Bootstrap packages + dotfiles symlinks via mise
-print_step "Running mise bootstrap..."
-cd "$DOTFILES_DIR"
-mise trust
-mise bootstrap
-
-# Oh My Zsh
-if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-  print_step "Installing Oh My Zsh..."
-  RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-else
-  print_ok "Oh My Zsh already installed"
-fi
-
-# Powerlevel10k
-P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-if [[ ! -d "$P10K_DIR" ]]; then
-  print_step "Installing Powerlevel10k..."
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
-else
-  print_ok "Powerlevel10k already installed"
-fi
-
-# Default shell
-if [[ "$SHELL" != "$(which zsh)" ]]; then
-  print_step "Setting zsh as default shell..."
-  chsh -s "$(which zsh)"
-else
-  print_ok "zsh is already the default shell"
-fi
-
-# Optional extras
-echo ""
-read -r -p "Apply macOS system settings (keyboard, Finder, Dock)? [y/N] " apply_macos
-if [[ "$apply_macos" =~ ^[Yy]$ ]]; then
-  print_step "Applying macOS settings..."
-  cd "$DOTFILES_DIR"
-  mise run bootstrap
-  mise run macos-wallpaper
-fi
-
-read -r -p "Set a custom hostname? [y/N] " set_host
-if [[ "$set_host" =~ ^[Yy]$ ]]; then
-  read -r -p "Enter hostname: " new_hostname
-  sudo bash "$DOTFILES_DIR/bin/set-hostname.sh" "$new_hostname"
-fi
-
-echo ""
 echo "Done! Open a new terminal session to load your shell config."
+echo "Optional: bin/wallpaper.sh sets the desktop picture + screensaver."

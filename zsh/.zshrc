@@ -2,10 +2,6 @@ if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
 
-# Set powerlevel10k theme.
-# https://github.com/romkatv/powerlevel10k
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -13,18 +9,22 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Oh My Zsh
-export ZSH="$HOME/.oh-my-zsh"
+# Oh My Zsh — installed by home-manager (nix/home/packages.nix). $ZSH lives in
+# the read-only nix store, so the cache has to go elsewhere, and the theme is
+# sourced directly rather than looked up under $ZSH/themes.
+NIX_PROFILE="/etc/profiles/per-user/$USER"
+export ZSH="$NIX_PROFILE/share/oh-my-zsh"
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
+mkdir -p "$ZSH_CACHE_DIR"
+ZSH_THEME=""
 zstyle ':omz:update' mode disabled
 plugins=(git mise)
 source $ZSH/oh-my-zsh.sh
+source "$NIX_PROFILE/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
 
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export HOMEBREW_NO_ENV_HINTS=1
-
-# mise
-eval "$(mise activate zsh)"
 
 # zsh plugins
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -54,6 +54,11 @@ export PATH="$HOME/go/bin:$PATH"
 
 # claude
 alias c="claude"
+
+# nix
+alias nix-switch="sudo /nix/var/nix/profiles/default/bin/nix \
+  --extra-experimental-features 'nix-command flakes' \
+  run nix-darwin/master#darwin-rebuild -- switch --flake path:/Users/alex/.dotfiles#mba"
 
 # git
 alias g="git"

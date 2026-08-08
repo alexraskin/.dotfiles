@@ -1,10 +1,10 @@
 {
-  "theme": "dark-daltonized",
-  "tui": "fullscreen",
   "attribution": {
     "commit": "false",
     "pr": "false"
   },
   "includeCoAuthoredBy": false,
-  "model": "sonnet"
+  "model": "opus",
+  "tui": "fullscreen",
+  "theme": "dark-daltonized"
 }
