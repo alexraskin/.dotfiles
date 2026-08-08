@@ -9,7 +9,7 @@ theme = Catppuccin Mocha
 split-divider-color = 203040
 # Scrollback limit (in bytes) - 100MB
 scrollback-limit = 100000000
-shell-integration-features = no-cursor
+shell-integration-features = no-cursor,ssh-env,ssh-terminfo
 window-width = 120
 window-height = 33
 window-padding-x = 8

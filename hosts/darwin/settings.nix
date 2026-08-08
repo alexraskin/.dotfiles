@@ -9,7 +9,6 @@
     ./macos-defaults.nix
     ./homebrew.nix
     ./aerospace.nix
-    ./tailscale.nix
     ./home-manager.nix
   ];
 
