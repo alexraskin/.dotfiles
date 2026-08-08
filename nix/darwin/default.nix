@@ -68,6 +68,10 @@
     systemPath = [
       "/opt/homebrew/bin"
     ];
-    pathsToLink = [ "/Applications" ];
+    pathsToLink = [
+      "/Applications"
+      "/share/oh-my-zsh"
+      "/share/zsh-powerlevel10k"
+    ];
   };
 }
