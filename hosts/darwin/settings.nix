@@ -19,7 +19,6 @@
 
   system.primaryUser = primaryUser;
 
-  # touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
 
   programs.zsh.enable = true;

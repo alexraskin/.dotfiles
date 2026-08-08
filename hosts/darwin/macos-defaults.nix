@@ -1,6 +1,5 @@
 { ... }:
 {
-  # system defaults and preferences
   system = {
     startup.chime = false;
 
@@ -16,12 +15,12 @@
       };
 
       finder = {
-        AppleShowAllFiles = true; # hidden files
-        AppleShowAllExtensions = true; # file extensions
-        _FXShowPosixPathInTitle = true; # title bar full path
-        ShowPathbar = true; # breadcrumb nav at bottom
-        ShowStatusBar = true; # file count & disk space
-        FXPreferredViewStyle = "Nlsv"; # list view
+        AppleShowAllFiles = true;
+        AppleShowAllExtensions = true;
+        _FXShowPosixPathInTitle = true;
+        ShowPathbar = true;
+        ShowStatusBar = true;
+        FXPreferredViewStyle = "Nlsv";
       };
 
       screencapture.location = "~/Documents/Screencaps";

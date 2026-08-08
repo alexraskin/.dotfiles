@@ -5,7 +5,6 @@
 
     lfs.enable = true;
 
-    # global gitignore (~/.config/git/ignore)
     ignores = [
       ".DS_Store"
       "*.aux"
@@ -25,7 +24,6 @@
       "**/.claude/settings.local.json"
     ];
 
-    # global gitattributes (~/.config/git/attributes)
     attributes = [
       "* text=auto"
       "*.json diff=json"

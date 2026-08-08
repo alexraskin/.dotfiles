@@ -1,7 +1,5 @@
 { ... }:
 {
-  # start-at-login and after-login-command are deliberately absent: the module
-  # asserts on both, since the launchd agent it defines is what starts AeroSpace.
   services.aerospace = {
     enable = true;
     settings = {
