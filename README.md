@@ -71,5 +71,3 @@ If you ever add a third-party tap: Homebrew 6 refuses untrusted taps, and `clean
 **`~/.zshrc` is generated** by `apps/zsh/zsh.nix` — don't edit it, don't symlink it. Order is set with `lib.mkOrder`: `~/.zshrc.local` and the p10k instant prompt at 500 (before anything that can print), oh-my-zsh at 800, p10k theme at 900, `~/.p10k.zsh` last. Functions live in `apps/zsh/shell-functions.sh` as plain zsh so they need no `''${…}` escaping — the tradeoff is that editing them needs a rebuild.
 
 **`history.share` is pinned false.** home-manager defaults it true, which the old `.zshrc` never did and which conflicts with `INC_APPEND_HISTORY_TIME`.
-
-**AeroSpace is fully declarative.** `hosts/darwin/aerospace.nix` generates the TOML into the store and launchd runs it, so there is no `~/.aerospace.toml`. `start-at-login` must stay unset — the module asserts on it.

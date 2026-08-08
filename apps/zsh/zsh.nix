@@ -44,9 +44,15 @@
 
       nix-switch = "sudo /nix/var/nix/profiles/default/bin/nix --extra-experimental-features 'nix-command flakes' run nix-darwin/master#darwin-rebuild -- switch --flake path:/Users/alex/.dotfiles#mba";
 
+      # Apply only the home-manager half — no sudo, no system changes. Enough
+      # for anything under apps/ or home/dotfiles.nix; not for hosts/.
+      hm-switch = "\"$(nix build --no-link --print-out-paths 'path:/Users/alex/.dotfiles#darwinConfigurations.mba.config.home-manager.users.alex.home.activationPackage')/activate\"";
+
       g = "git";
       gst = "git status";
       gpb = "git push -u origin $(git branch --show-current)";
+
+      ff = "fastfetch";
 
       l = "ls -AF";
       ll = "ls -lh";
@@ -63,8 +69,6 @@
       router_ip = "route -n get default -ifscope en0 | awk '/gateway/ { print $2 }'";
       flush-dns-cache = "sudo killall -HUP mDNSResponder";
       fast = "networkQuality -v";
-
-      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
 
       tf = "terraform";
       tfdocs = "terraform-docs markdown table --output-file README.md --output-mode inject .";
