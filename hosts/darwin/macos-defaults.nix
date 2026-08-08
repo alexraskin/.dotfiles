@@ -1,13 +1,7 @@
-{ self, ... }:
+{ ... }:
 {
-  # touch ID for sudo
-  security.pam.services.sudo_local.touchIdAuth = true;
-
   # system defaults and preferences
   system = {
-    stateVersion = 6;
-    configurationRevision = self.rev or self.dirtyRev or null;
-
     startup.chime = false;
 
     defaults = {
@@ -44,13 +38,29 @@
         ApplePressAndHoldEnabled = false;
       };
 
+      screensaver.askForPasswordDelay = 300;
+
       CustomUserPreferences = {
+        "com.apple.finder" = {
+          WarnOnEmptyTrash = false;
+          DisableAllAnimations = true;
+        };
         "com.apple.controlcenter" = {
           "NSStatusItem Visible NowPlaying" = false;
         };
         "com.apple.desktopservices" = {
           DSDontWriteNetworkStores = true;
           DSDontWriteUSBStores = true;
+        };
+        "com.apple.TimeMachine".DoNotOfferNewDisksForBackup = true;
+        "com.apple.SoftwareUpdate" = {
+          AutomaticCheckEnabled = true;
+          # Check for software updates daily, not just once per week
+          ScheduleFrequency = 1;
+          # Download newly available updates in background
+          AutomaticDownload = 1;
+          # Install System data files & security updates
+          CriticalUpdateInstall = 1;
         };
       };
     };

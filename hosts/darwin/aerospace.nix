@@ -1,0 +1,169 @@
+{ ... }:
+{
+  # start-at-login and after-login-command are deliberately absent: the module
+  # asserts on both, since the launchd agent it defines is what starts AeroSpace.
+  services.aerospace = {
+    enable = true;
+    settings = {
+      config-version = 2;
+
+      enable-normalization-flatten-containers = true;
+      enable-normalization-opposite-orientation-for-nested-containers = true;
+
+      accordion-padding = 30;
+
+      default-root-container-layout = "tiles";
+      default-root-container-orientation = "auto";
+
+      on-focused-monitor-changed = [ "move-mouse monitor-force-center" ];
+
+      automatically-unhide-macos-hidden-apps = true;
+
+      key-mapping.preset = "qwerty";
+
+      gaps = {
+        inner.horizontal = 0;
+        inner.vertical = 0;
+        outer.left = 0;
+        outer.bottom = 0;
+        outer.top = 0;
+        outer.right = 0;
+      };
+
+      mode.main.binding = {
+        alt-slash = "layout tiles horizontal vertical";
+        alt-comma = "layout accordion horizontal vertical";
+
+        alt-h = "focus left";
+        alt-j = "focus down";
+        alt-k = "focus up";
+        alt-l = "focus right";
+
+        alt-shift-h = "move left";
+        alt-shift-j = "move down";
+        alt-shift-k = "move up";
+        alt-shift-l = "move right";
+
+        alt-minus = "resize smart -50";
+        alt-equal = "resize smart +50";
+        alt-shift-equal = "balance-sizes";
+
+        alt-shift-r = "reload-config";
+        alt-shift-f = "fullscreen";
+        alt-tab = "workspace-back-and-forth";
+        alt-shift-tab = "move-workspace-to-monitor --wrap-around next";
+        alt-shift-semicolon = "mode service";
+
+        alt-1 = "workspace 1";
+        alt-2 = "workspace 2";
+        alt-3 = "workspace 3";
+        alt-4 = "workspace 4";
+        alt-5 = "workspace 5";
+        alt-6 = "workspace 6";
+        alt-7 = "workspace 7";
+        alt-b = "workspace B";
+        alt-c = "workspace C";
+        alt-e = "workspace E";
+        alt-m = "workspace M";
+        alt-n = "workspace N";
+        alt-t = "workspace T";
+
+        alt-shift-1 = "move-node-to-workspace 1";
+        alt-shift-2 = "move-node-to-workspace 2";
+        alt-shift-3 = "move-node-to-workspace 3";
+        alt-shift-4 = "move-node-to-workspace 4";
+        alt-shift-5 = "move-node-to-workspace 5";
+        alt-shift-6 = "move-node-to-workspace 6";
+        alt-shift-7 = "move-node-to-workspace 7";
+        alt-shift-b = "move-node-to-workspace B";
+        alt-shift-c = "move-node-to-workspace C";
+        alt-shift-e = "move-node-to-workspace E";
+        alt-shift-m = "move-node-to-workspace M";
+        alt-shift-n = "move-node-to-workspace N";
+        alt-shift-t = "move-node-to-workspace T";
+      };
+
+      mode.service.binding = {
+        esc = [
+          "reload-config"
+          "mode main"
+        ];
+        r = [
+          "flatten-workspace-tree"
+          "mode main"
+        ];
+        f = [
+          "layout floating tiling"
+          "mode main"
+        ];
+        backspace = [
+          "close-all-windows-but-current"
+          "mode main"
+        ];
+
+        alt-shift-h = [
+          "join-with left"
+          "mode main"
+        ];
+        alt-shift-j = [
+          "join-with down"
+          "mode main"
+        ];
+        alt-shift-k = [
+          "join-with up"
+          "mode main"
+        ];
+        alt-shift-l = [
+          "join-with right"
+          "mode main"
+        ];
+
+        down = "volume down";
+        up = "volume up";
+        shift-down = [
+          "volume set 0"
+          "mode main"
+        ];
+      };
+
+      on-window-detected = [
+        {
+          "if".app-id = "com.google.Chrome";
+          run = [ "move-node-to-workspace B" ];
+        }
+        {
+          "if".app-id = "dev.zed.Zed";
+          run = [ "move-node-to-workspace 1" ];
+        }
+        {
+          "if".app-id = "org.alacritty";
+          run = [ "move-node-to-workspace T" ];
+        }
+        {
+          "if".app-id = "com.mitchellh.ghostty";
+          run = [ "move-node-to-workspace T" ];
+        }
+        {
+          "if".app-id = "com.apple.mail";
+          run = [ "move-node-to-workspace 4" ];
+        }
+        {
+          "if".app-id = "com.apple.finder";
+          run = [ "move-node-to-workspace E" ];
+        }
+        {
+          "if".app-id = "com.apple.iCal";
+          run = [ "move-node-to-workspace N" ];
+        }
+        {
+          "if".app-id = "net.whatsapp.WhatsApp";
+          run = [ "move-node-to-workspace 2" ];
+        }
+        {
+          "if".app-id = "com.spotify.client";
+          run = [ "move-node-to-workspace M" ];
+        }
+      ];
+    };
+  };
+}

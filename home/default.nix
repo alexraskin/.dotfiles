@@ -2,9 +2,8 @@
 {
   imports = [
     ./packages.nix
-    ./git.nix
     ./dotfiles.nix
-    ./mise.nix
+    ../apps/config.nix
   ];
 
   home = {

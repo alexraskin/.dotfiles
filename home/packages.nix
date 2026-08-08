@@ -14,8 +14,7 @@
       yt-dlp
       ffmpeg
 
-      oh-my-zsh
-      zsh-powerlevel10k
+      xcode-install
     ];
   };
 }

@@ -17,26 +17,15 @@
   };
 
   outputs =
-    {
-      self,
-      darwin,
-      nixpkgs,
-      home-manager,
-      nix-homebrew,
-      ...
-    }@inputs:
+    { self, ... }@inputs:
     let
-      primaryUser = "alex";
+      mkSystem = import ./lib/mkSystem.nix { inherit inputs self; };
     in
     {
-      darwinConfigurations."mba" = darwin.lib.darwinSystem {
+      darwinConfigurations."mba" = mkSystem "mba" {
         system = "aarch64-darwin";
-        modules = [
-          ./nix/darwin
-          ./nix/hosts/mba/configuration.nix
-        ];
-        specialArgs = { inherit inputs self primaryUser; };
+        user = "alex";
+        hostname = "alexs-mba";
       };
-
     };
 }

@@ -11,7 +11,5 @@
     };
   };
 
-  # activation script to set up mise configuration
-  home.activation.setupMise = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-  '';
+  home.activation.setupMise = lib.hm.dag.entryAfter [ "writeBoundary" ] "";
 }
